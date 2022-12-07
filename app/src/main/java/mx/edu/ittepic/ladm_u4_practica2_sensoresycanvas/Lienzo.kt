@@ -20,10 +20,13 @@ class Lienzo(p:MainActivity) : View(p), SensorEventListener {
     private var mSensorManager : SensorManager ?= null
     private var mAccelerometer : Sensor ?= null
 
+    var xluz = 0f
+    var yluz = 0f
+
     val bruja = Figura(this, R.drawable.bruja, 180f, 600f)
-    var luz = Figura(this, R.drawable.sol2, 150f, 600f)
-    var nube1 = Figura(this, R.drawable.nube2, 150f, 20f)
-    var nube2 = Figura(this, R.drawable.nube2, 430f, 10f)
+    var luz = Figura(this, R.drawable.sol2, xluz, yluz)
+    var nube1 = Figura(this, R.drawable.nubes2, 150f, 20f)
+    //var nube2 = Figura(this, R.drawable.nube2, 430f, 10f)
 
     init {
         //usoSensor()
@@ -35,11 +38,11 @@ class Lienzo(p:MainActivity) : View(p), SensorEventListener {
 
         val p = Paint()
 
-        cambiarHoraDia(p, c, "dia")
+        cambiarHoraDia(p, c, "noche")
 
         bruja.pintar(c)
         nube1.pintar(c)
-        nube2.pintar(c)
+        //nube2.pintar(c)
     }
     /*private fun usoSensor() {
         SensorManager = this.context.getSystemService(SENSOR_SERVICE) as SensorManager?
@@ -78,7 +81,7 @@ class Lienzo(p:MainActivity) : View(p), SensorEventListener {
 
 
     override fun onSensorChanged(event: SensorEvent?){
-        println("entró a onSensorChanged")
+        //println("entró a onSensorChanged")
         if(event?.sensor?.type == Sensor.TYPE_ACCELEROMETER){
             val sides = event.values[0]
             val upDown = event.values[1]
@@ -86,6 +89,11 @@ class Lienzo(p:MainActivity) : View(p), SensorEventListener {
             println("up/down ${upDown.toInt()}\nleft/right ${sides.toInt()}")
 
             //CODIGO DE MOVIMIENTO
+            luz.mover(sides, upDown)
+
+            nube1.mover(sides, upDown)
+            //nube2.mover(sides, upDown)
+            invalidate()
         }
     }
 
@@ -97,13 +105,13 @@ class Lienzo(p:MainActivity) : View(p), SensorEventListener {
         if(hora == "noche"){
             //noche
             p.color = Color.rgb(49, 54, 80)
-            luz = Figura(this, R.drawable.luna2, 0f, 0f)
+            luz = Figura(this, R.drawable.luna2, luz.x, luz.y)
         }else{
             //día
             p.color = Color.argb(255,0,170, 228)
-            luz = Figura(this, R.drawable.sol2, 0f, 0f)
+            luz = Figura(this, R.drawable.sol2, luz.x, luz.y)
         }
-        c.drawRect(0f, 0f, 720f, 1600f,p)
+        c.drawRect(0f, 0f, 1200f, 2600f,p)
         luz.pintar(c)
     }
 }

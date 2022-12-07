@@ -15,7 +15,12 @@ class Figura(lienzo: Lienzo, imagen:Int, x:Float, y:Float) {
         c.drawBitmap(imagen, x, y, p)
     }
 
-    fun mover(x:Float, y:Float){
-
+    fun mover(xSensor:Float, ySensor:Float){
+        //if (x<=720f && x >=0) {
+            x += xSensor*-1
+        //}
+        //if (y<=1600 && y >=0) {
+            y += ySensor
+        //}
     }
 }
